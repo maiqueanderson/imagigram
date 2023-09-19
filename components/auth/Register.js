@@ -1,39 +1,52 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import React, { useState } from 'react';
+import {View, TextInput, Button} from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, doc, setDoc } from "firebase/firestore";
+import "firebase/auth";
+import "firebase/firestore";
 
-import { app } from '../../database/firebaseConfig'
+import { app, db }  from '../../database/firebaseConfig';
 
-const Register = () =>{
+const Register = ({ navigation }) => {
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleSubmit = async () =>{
-
-        //aqui é para ter o controle de erro ao fazer a ligação com o backend
+  const handleSubmit = async () => {
+    const auth = getAuth(app);
+    try {
+      const dataUser = await createUserWithEmailAndPassword(auth, email, password)
+      if (dataUser) {
         try {
-            const auth = getAuth(app);
-            const data = await createUserWithEmailAndPassword(auth, email, password);
-        } catch (error) {
-            console.log('err', error);
+          const usersRef = collection(db, "users")
+          await setDoc(doc(usersRef, auth.currentUser.uid), {
+            name,
+            email,
+          })
+        } catch (err) {
+          console.log('errDoc: ', err);
         }
-
-    };
-       
+      }
+    } catch (err) {
+      console.log('errUser: ', err)
+    }
+  };
   
-
-    return (
-        //View é como se fosse uma DIV
-        <View>
-        {/* aqui é como é feito o input para o formulario */}
-            <TextInput placeholder="Nome" onChangeText={setName}/>
-            <TextInput placeholder="E-mail" onChangeText={setEmail}/>
-            <TextInput placeholder="Senha" secureTextEntry onChangeText={setPassword}/>
-            <Button title="submit" onPress={handleSubmit}/>
-        </View>
-    );
+  return (
+    <View>
+      <TextInput placeholder='Nome' onChangeText={setName} />
+      <TextInput placeholder='E-mail' onChangeText={setEmail} />
+      <TextInput
+        placeholder='Password'
+        secureTextEntry
+        onChangeText={setPassword}
+      />
+      <Button
+        title="Submit"
+        onPress={handleSubmit}
+      />
+    </View>
+  )
 };
 
 export default Register;

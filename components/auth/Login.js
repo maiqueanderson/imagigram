@@ -1,40 +1,30 @@
-
 import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Button, TextInput, View } from "react-native";
+import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
+import "firebase/auth";
+import { app } from '../../database/firebaseConfig';
 
-import { app } from '../../database/firebaseConfig'
+const Login = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-const Login = ({navigation}) =>{
-    
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const handleSubmit = async () => {
+    try {
+      const auth = getAuth(app);
+      const data = await signInWithEmailAndPassword(auth, email, password);
+      console.log(data);
+    } catch (error) {
+      console.log('err', error);
+    }
+  };
 
-    const handleSubmit = async () =>{
-
-        //aqui é para ter o controle de erro ao fazer a ligação com o backend
-        try {
-            const auth = getAuth(app);
-            const data = await signInWithEmailAndPassword(auth, email, password);
-            console.log(data);
-        } catch (error) {
-            console.log('err', error);
-        }
-
-    };
-       
-  
-
-    return (
-        //View é como se fosse uma DIV
-        <View>
-        {/* aqui é como é feito o input para o formulario */}
-           
-            <TextInput placeholder="E-mail" onChangeText={setEmail}/>
-            <TextInput placeholder="Senha" secureTextEntry onChangeText={setPassword}/>
-            <Button title="submit" onPress={handleSubmit}/>
-        </View>
-    );
+  return (
+    <View>
+      <TextInput placeholder="E-mail" onChange={e => setEmail(e.nativeEvent.text)} />
+      <TextInput placeholder="Senha" secureTextEntry onChange={e => setPassword(e.nativeEvent.text)} />
+      <Button title="submit" onPress={handleSubmit} />
+    </View>
+  )
 };
 
 export default Login;
