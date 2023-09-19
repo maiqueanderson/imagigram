@@ -45,7 +45,7 @@ const Main = ({ fetchUser, fetchUserPosts }) => {
         }}
       />
       <Tab.Screen
-        name='Search'
+        name='Buscar'
         component={Search}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -54,7 +54,7 @@ const Main = ({ fetchUser, fetchUserPosts }) => {
         }}
       />
       <Tab.Screen
-        name="AddContainer"
+        name="Postar"
         component={NullComponent}
         listeners={({ navigation }) => ({
           tabPress: (event) => {
@@ -69,7 +69,7 @@ const Main = ({ fetchUser, fetchUserPosts }) => {
         }}
       />
       <Tab.Screen
-        name='Profile'
+        name='Perfil'
         component={Profile}
         listeners={({ navigation }) => ({
           tabPress: (event) => {

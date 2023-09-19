@@ -19,6 +19,7 @@ const Profile = ({ currentUser, posts, route }) => {
       fetchUser()
       fetchUserPosts();
     }
+    //toda vez que uid sofrer uma alteração ele vai executar o useEffect novamente
   }, [uid])
 
 
@@ -56,6 +57,7 @@ const Profile = ({ currentUser, posts, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
+      {/* aqui é para fazer o avatar do usuario */}
         <Card>
           <Card.Title
             title={user?.name}
@@ -74,6 +76,8 @@ const Profile = ({ currentUser, posts, route }) => {
         </Card>
       </View>
       <View style={styles.gallery}>
+      {/* aqui é onde é feita a listagem dos posts do usuario */}
+      {/* o flatlist é uma forma facil de fazer uma lista com colunas e linhas para dispositivos moveis */}
         <FlatList
           numColumns={3}
           horizontal={false}
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
   },
 })
 
+//aqui é para pegar informações do usuario
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
   posts: store.userState.posts,
