@@ -13,7 +13,8 @@ import { app } from '../database/firebaseConfig'
 
 import {
   fetchUser,
-  fetchUserPosts
+  fetchUserPosts,
+  fetchUserFollowing
 } from '../redux/actions';
 
 import Feed from './main/Feed';
@@ -24,10 +25,11 @@ const Tab = createBottomTabNavigator();
 
 const NullComponent = () => null;
 
-const Main = ({ fetchUser, fetchUserPosts }) => {
+const Main = ({ fetchUser, fetchUserPosts, fetchUserFollowing }) => {
   useEffect(() => {
     fetchUser();
     fetchUserPosts();
+    fetchUserFollowing();
   }, []);
 
   const auth = getAuth(app);
@@ -69,7 +71,7 @@ const Main = ({ fetchUser, fetchUserPosts }) => {
         }}
       />
       <Tab.Screen
-        name='Perfil'
+        name='Profile'
         component={Profile}
         listeners={({ navigation }) => ({
           tabPress: (event) => {
@@ -93,7 +95,7 @@ const Main = ({ fetchUser, fetchUserPosts }) => {
 // //aqui é para mapear todas as ações e pegar uma dado especifico o fetchUser, os dados do usuario
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser, fetchUserPosts },
+    { fetchUser, fetchUserPosts, fetchUserFollowing },
     dispatch
   );
 

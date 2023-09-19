@@ -14,11 +14,14 @@
 
 import {
   USER_STATE_CHANGE,
-  USER_POST_CHANGE
+  USER_POST_CHANGE,
+  USER_FOLLOWING_CHANGE
 } from '../constants';
 
 const initialState = {
-  currentUser: null
+  currentUser: null,
+  posts: [],
+  following: []
 };
 
 const user = (state = initialState, action) => {
@@ -32,6 +35,12 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         posts: action.posts,
+      };
+
+      case USER_FOLLOWING_CHANGE:
+      return {
+        ...state,
+        following: action.following,
       };
     default:
       return state;
