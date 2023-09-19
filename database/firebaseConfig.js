@@ -8,7 +8,7 @@ import "firebase/firestore";
 
 const firebaseConfig = {
    
-    
+  
   };
 
 export const app = initializeApp(firebaseConfig);

@@ -8,18 +8,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { fetchUser } from '../redux/actions';
-import Add from './main/Add';
+import { getAuth } from "firebase/auth";
+import { app } from '../database/firebaseConfig'
+
+import {
+  fetchUser,
+  fetchUserPosts
+} from '../redux/actions';
+
 import Feed from './main/Feed';
 import Profile from './main/Profile';
+import Search from './main/Search';
 
 const Tab = createBottomTabNavigator();
+
 const NullComponent = () => null;
 
-const Main = ({ fetchUser }) => {
+const Main = ({ fetchUser, fetchUserPosts }) => {
   useEffect(() => {
     fetchUser();
+    fetchUserPosts();
   }, []);
+
+  const auth = getAuth(app);
+  const uid = auth.currentUser.uid;
 
   return (
     <Tab.Navigator initialRouteName='Feed' backBehavior='initialRoute' >
@@ -32,9 +44,17 @@ const Main = ({ fetchUser }) => {
           )
         }}
       />
-
       <Tab.Screen
-        name="Postar"
+        name='Search'
+        component={Search}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name='magnify' size={26} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AddContainer"
         component={NullComponent}
         listeners={({ navigation }) => ({
           tabPress: (event) => {
@@ -48,24 +68,32 @@ const Main = ({ fetchUser }) => {
           )
         }}
       />
-
       <Tab.Screen
-        name="Profile"
+        name='Profile'
         component={Profile}
+        listeners={({ navigation }) => ({
+          tabPress: (event) => {
+            event.preventDefault();
+            navigation.navigate('Profile', {
+              uid,
+            });
+          },
+        })}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name='account-circle' size={26} color={color} />
-          )
+          ),
         }}
       />
     </Tab.Navigator>
   )
 }
 
-//aqui é para mapear todas as ações e pegar uma dado especifico o fetchUser, os dados do usuario
+
+// //aqui é para mapear todas as ações e pegar uma dado especifico o fetchUser, os dados do usuario
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser },
+    { fetchUser, fetchUserPosts },
     dispatch
   );
 

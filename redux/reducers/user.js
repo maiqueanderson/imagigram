@@ -12,15 +12,30 @@
 
 // export default userReducers;
 
+import {
+  USER_STATE_CHANGE,
+  USER_POST_CHANGE
+} from '../constants';
+
 const initialState = {
-    currentUser: null
-  };
-  
-  const userReducer = (state = initialState, action) => {
-    return {
-      ...state,
-      currentUser: action.currentUser
-    }
+  currentUser: null
+};
+
+const user = (state = initialState, action) => {
+  switch (action.type) {
+    case USER_STATE_CHANGE:
+      return {
+        ...state,
+        currentUser: action.currentUser,
+      };
+    case USER_POST_CHANGE:
+      return {
+        ...state,
+        posts: action.posts,
+      };
+    default:
+      return state;
   }
-  
-  export default userReducer;
+};
+
+export default user;
