@@ -5,7 +5,9 @@ import {
   ActivityIndicator,
   Avatar,
   Card,
-  Paragraph
+  Paragraph,
+  Button,
+  Caption
 } from 'react-native-paper';
 
 import { connect } from 'react-redux';
@@ -57,6 +59,19 @@ const Feed = ({ feed, following, usersFollowingLoaded }) => {
                   <Image style={styles.image} source={{ uri: item?.downloadURL }} />
                 </View>
                 <Paragraph>{item?.caption}</Paragraph>
+                <Card.Actions>
+                <Button
+                    icon='comment-arrow-right'
+                    onPress={() => {
+                      navigation.navigate('Comment', {
+                        postId: item.id,
+                        uid: item.user.uid
+                      })
+                    }}
+                  >
+                    View Comments...
+                  </Button>
+                </Card.Actions>
               </Card.Content>
 
             </Card>

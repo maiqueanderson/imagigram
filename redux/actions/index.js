@@ -41,9 +41,16 @@ import {
   USER_FOLLOWING_CHANGE,
   USERS_DATA_CHANGE,
   USERS_POST_CHANGE,
+  USERS_LIKE_COUNT_CHANGE,
+  USERS_LIKE_CHANGE,
+  CLEAR_DATA,
 } from '../constants';
 
 import { app, db }  from '../../database/firebaseConfig';
+
+export const clearData = () => {
+  return (dispatch) => dispatch({ type: CLEAR_DATA });
+};
 
 export const fetchUser = () => {
   return (dispatch) => {

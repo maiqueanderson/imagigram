@@ -1,6 +1,9 @@
 import {
-    USERS_DATA_CHANGE,
-    USERS_POST_CHANGE
+  USERS_DATA_CHANGE,
+  USERS_POST_CHANGE,
+  USERS_LIKE_CHANGE,
+  USERS_LIKE_COUNT_CHANGE,
+  CLEAR_DATA
   } from '../constants';
   
   const initialState = {
@@ -22,6 +25,8 @@ import {
           usersFollowingLoaded: state.usersFollowingLoaded + 1,
           feed: [...state.feed, ...action.posts],
         };
+        case CLEAR_DATA:
+      return initialState;
       default:
         return state;
     }

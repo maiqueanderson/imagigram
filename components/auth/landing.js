@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {Text, View, Button, TouchableOpacity, StyleSheet} from 'react-native';
+import {Button,Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+
 
 const Landing = ({ navigation }) => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text style={{ marginBottom: '1rem'}}>Welcome to Imagigram</Text>
+    <Text style={{ marginBottom: '1rem'}}>Bem vindo ao Imagigram</Text>
     <TouchableOpacity
       style={styles.button}
       onPress={() => navigation.navigate('Register')}>
@@ -11,7 +12,9 @@ const Landing = ({ navigation }) => (
     </TouchableOpacity>
     
     <Button
+    
       icon='login-variant'
+      
       title="Login"
       onPress={() => navigation.navigate('Login')}
     />

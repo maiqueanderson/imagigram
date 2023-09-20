@@ -14,7 +14,8 @@ import { app } from '../database/firebaseConfig'
 import {
   fetchUser,
   fetchUserPosts,
-  fetchUserFollowing
+  fetchUserFollowing,
+  clearData
 } from '../redux/actions';
 
 import Feed from './main/Feed';
@@ -25,8 +26,9 @@ const Tab = createBottomTabNavigator();
 
 const NullComponent = () => null;
 
-const Main = ({ fetchUser, fetchUserPosts, fetchUserFollowing }) => {
+const Main = ({ fetchUser, fetchUserPosts, fetchUserFollowing, clearData }) => {
   useEffect(() => {
+    clearData();
     fetchUser();
     fetchUserPosts();
     fetchUserFollowing();
@@ -95,7 +97,7 @@ const Main = ({ fetchUser, fetchUserPosts, fetchUserFollowing }) => {
 // //aqui é para mapear todas as ações e pegar uma dado especifico o fetchUser, os dados do usuario
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser, fetchUserPosts, fetchUserFollowing },
+    { fetchUser, fetchUserPosts, fetchUserFollowing, clearData },
     dispatch
   );
 
